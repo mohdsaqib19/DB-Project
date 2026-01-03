@@ -2,7 +2,7 @@
   "name": "db-project",
   "version": "1.0.0",
   "description": "Project",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +20,7 @@
   "dependencies": {
     "ejs": "^3.1.10",
     "express": "^5.2.1",
+    "method-override": "^3.0.0",
     "mo": "^1.7.3",
     "mongoose": "^9.1.1"
   }

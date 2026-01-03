@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Listing</title>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+</head>
+<body class="bg-light">
+
+  <div class="container mt-5">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title mb-4">Edit Listing</h3>
+
+        <form
+          action="/listings/<%= listing._id %>?_method=PUT"
+          method="POST"
+        >
+          <!-- Title -->
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input
+              type="text"
+              name="title"
+              class="form-control"
+              value="<%= listing.title %>"
+              required
+            />
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea
+              name="description"
+              class="form-control"
+              rows="3"
+            ><%= listing.description %></textarea>
+          </div>
+
+          <!-- Image URL -->
+          <div class="mb-3">
+            <label class="form-label">Image URL</label>
+            <input
+              type="text"
+              name="image"
+              class="form-control"
+              value="<%= listing.image.url %>"
+            />
+          </div>
+
+          <!-- Price -->
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input
+              type="number"
+              name="price"
+              class="form-control"
+              value="<%= listing.price %>"
+            />
+          </div>
+
+          <!-- Location -->
+          <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input
+              type="text"
+              name="location"
+              class="form-control"
+              value="<%= listing.location %>"
+            />
+          </div>
+
+          <!-- Country -->
+          <div class="mb-3">
+            <label class="form-label">Country</label>
+            <input
+              type="text"
+              name="country"
+              class="form-control"
+              value="<%= listing.country %>"
+            />
+          </div>
+
+          <!-- Buttons -->
+          <button type="submit" class="btn btn-success">
+            Update Listing
+          </button>
+
+          <a href="/listings" class="btn btn-secondary ms-2">
+            Cancel
+          </a>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

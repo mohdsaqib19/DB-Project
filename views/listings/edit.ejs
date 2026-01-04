@@ -1,19 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit Listing</title>
+<% layout("./layout/boilerplate.ejs") -%>
 
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
-</head>
-<body class="bg-light">
-
-  <div class="container mt-5">
-    <div class="card shadow">
+  <div class="container mb-5" style="margin-top: 100px;">
+    <!-- <div class="card shadow"> -->
       <div class="card-body">
         <h3 class="card-title mb-4">Edit Listing</h3>
 
@@ -88,7 +76,7 @@
           </div>
 
           <!-- Buttons -->
-          <button type="submit" class="btn btn-success">
+          <button href="/listings/<%= listing._id %>" type="submit" class="add btn btn-success">
             Update Listing
           </button>
 
@@ -101,5 +89,4 @@
     </div>
   </div>
 
-</body>
-</html>
+

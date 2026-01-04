@@ -1,0 +1,44 @@
+<% layout("./layout/boilerplate.ejs") -%>
+  <div style="margin: 100px;" class="mx-1">
+
+    <div class="row g-4 mt-4">
+      <% for (let list of listings) { %>
+        <div class="col-md-4 col-sm-6">
+          <div class="card h-100 shadow-sm">
+            <img
+            src="<%= list.image.url %>"
+            class="card-img-top"
+            alt="listing image"
+            style="height: 200px; object-fit: cover;"
+            />
+            
+            <div class="card-body">
+              <h5 class="card-title">
+            <a href="/listings/<%= list._id %>" class="text-decoration-none">
+              <%= list.title %>
+            </a>
+          </h5>
+          
+          <!-- <p class="card-text text-muted">
+            <%= list.description %>
+          </p> -->
+          
+          <p class="fw-bold">
+            ₹ <%= list.price.toLocaleString("en-IN") %>
+          </p>
+        </div>
+        
+        <div class="card-footer bg-transparent border-0">
+          <a
+          href="/listings/<%= list._id %>"
+          class="btn btn-sm btn-outline-primary"
+          >
+          View Details
+        </a>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</div>
+</div>
+

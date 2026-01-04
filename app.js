@@ -5,10 +5,12 @@ const port = 8080;
 const path = require("path");
 const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
+const ejs = require("ejs-mate");
 const MONGO_URL = "mongodb://localhost:27017/wanderlust";
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
-
+app.engine("ejs", ejs);
+app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -24,10 +26,10 @@ app.get("/", (req, res) => {
 });
 app.get("/listings", async (req, res) => {
   const listings = await Listing.find({});
-  res.render("listings.ejs", { listings });
+  res.render("./listings/listings.ejs", { listings });
 });
 app.get("/listings/new", (req, res) => {
-  res.render("new.ejs");
+  res.render("./listings/new.ejs");
 });
 
 app.post("/listings", async (req, res) => {
@@ -40,18 +42,18 @@ app.post("/listings", async (req, res) => {
     country,
   });
   await newListing.save();
-  res.redirect("/listings");
+  res.redirect("./listings/listings");
 });
 app.delete("/listings/:id", async (req, res) => {
   const { id } = req.params;
   await Listing.findByIdAndDelete(id);
-  res.redirect("/listings");
+  res.redirect("./listings/listings");
 });
 
 app.get("/listings/:id/edit", async (req, res) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
-  res.render("edit.ejs", { listing });
+  res.render("./listings/edit.ejs", { listing });
 });
 
 app.put("/listings/:id", async (req, res) => {
@@ -64,12 +66,12 @@ app.put("/listings/:id", async (req, res) => {
     location,
     country,
   });
-  res.redirect(`/listings/${id}`);
+  res.redirect(`./${id}`);
 });
 app.get("/listings/:id", async (req, res) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
-  res.render("show.ejs", { listing });
+  res.render("./listings/show.ejs", { listing });
 });
 
 //listings routes

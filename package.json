@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mohdsaqib19/DB-Project#readme",
   "dependencies": {
     "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
     "express": "^5.2.1",
     "method-override": "^3.0.0",
     "mo": "^1.7.3",

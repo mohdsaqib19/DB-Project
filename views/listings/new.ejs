@@ -1,0 +1,80 @@
+<% layout("./layout/boilerplate.ejs") -%>
+  <div class="mb-5 container", style="margin-top: 100px;">
+    <!-- <div class="card shadow"> -->
+      <div class="card-body">
+        <h3 class="card-title mb-4 text-center">Create New Listing</h3>
+
+        <form action="/listings?method=POST" method="POST">
+          <!-- Title -->
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input
+              type="text"
+              name="title"
+              class="form-control"
+              placeholder="Enter title"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea
+              name="description"
+              class="form-control"
+              rows="3"
+              placeholder="Enter description"
+            ></textarea>
+          </div>
+
+          <!-- Image URL -->
+          <div class="mb-3">
+            <label class="form-label">Image URL</label>
+            <input
+              type="text"
+              name="image"
+              class="form-control"
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+
+          <!-- Price -->
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input
+              type="number"
+              name="price"
+              class="form-control"
+              placeholder="Enter price"
+            />
+          </div>
+
+          <!-- Location -->
+          <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input
+              type="text"
+              name="location"
+              class="form-control"
+              placeholder="City / Place"
+            />
+          </div>
+
+          <!-- Country -->
+          <div class="mb-3">
+            <label class="form-label">Country</label>
+            <input
+              type="text"
+              name="country"
+              class="form-control"
+              placeholder="Country"
+            />
+          </div>
+
+          <!-- Submit -->
+          <div class="d-grid">
+            <button  class="add btn btn-primary">Add Listing</button>
+          </div>
+        </form>
+      </div>
+    </div>

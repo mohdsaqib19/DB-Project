@@ -1,10 +1,10 @@
 <% layout("./layout/boilerplate.ejs") -%>
-  <div class="mb-5 container", style="margin-top: 100px;">
+  <div class="mb-5  container", style="margin-top: 100px;">
     <!-- <div class="card shadow"> -->
       <div class="card-body">
         <h3 class="card-title mb-4 text-center">Create New Listing</h3>
 
-        <form action="/listings?method=POST" method="POST">
+        <form action="/listings?method=POST" novalidate class="needs-validation"  method="POST">
           <!-- Title -->
           <div class="mb-3">
             <label class="form-label">Title</label>
@@ -15,6 +15,9 @@
               placeholder="Enter title"
               required
             />
+            <div class="invalid-feedback">
+              Please enter a valid Title
+            </div>
           </div>
 
           <div class="mb-3">
@@ -25,6 +28,9 @@
               rows="3"
               placeholder="Enter description"
             ></textarea>
+                        <div class="invalid-feedback">
+              Please enter a valid Description
+            </div>
           </div>
 
           <!-- Image URL -->
@@ -35,18 +41,25 @@
               name="image"
               class="form-control"
               placeholder="https://example.com/image.jpg"
+              required
             />
+                        <div class="invalid-feedback">
+              Please enter Image URL
+            </div>
           </div>
 
           <!-- Price -->
           <div class="mb-3">
             <label class="form-label">Price</label>
             <input
-              type="number"
+              
               name="price"
               class="form-control"
               placeholder="Enter price"
-            />
+              required
+            />            <div class="invalid-feedback">
+              Please enter a valid Price
+            </div>
           </div>
 
           <!-- Location -->
@@ -57,7 +70,10 @@
               name="location"
               class="form-control"
               placeholder="City / Place"
-            />
+              required
+            />            <div class="invalid-feedback">
+              Please provide a valid location
+            </div>
           </div>
 
           <!-- Country -->
@@ -68,7 +84,10 @@
               name="country"
               class="form-control"
               placeholder="Country"
-            />
+              required
+            />            <div class="invalid-feedback">
+              Please entery Country name
+            </div>
           </div>
 
           <!-- Submit -->

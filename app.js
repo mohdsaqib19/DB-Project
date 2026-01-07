@@ -16,17 +16,17 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema} = require("./schema.js");
+const { listingSchema } = require("./schema.js");
 
 const validateListing = (req, res, next) => {
-  let {error} = listingSchema.validate(req.body);
-    console.log(error);
-    if(error){
-      throw new ExpressError(400,"error")
-    } else {
-      next();
-    }
+  let { error } = listingSchema.validate(req.body);
+  console.log(error);
+  if (error) {
+    throw new ExpressError(400, "error");
+  } else {
+    next();
   }
+};
 main()
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log(err));
@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
 });
 
 app.get(
-  "/listings",validateListing,
+  "/listings",
   wrapAsync(async (req, res) => {
     const listings = await Listing.find({});
     res.render("./listings/listings.ejs", { listings });
@@ -53,8 +53,8 @@ app.get("/listings/new", (req, res) => {
 
 app.post(
   "/listings",
-  wrapAsync(async (req, res,next) => {
-    const newListing = new Listing(req.body.listing);
+  wrapAsync(async (req, res, next) => {
+    const newListing = new Listing(req.body);
     // const { title, description, price, location, country } = req.body;
     // let newListing = new Listing({
     //   title,
@@ -70,6 +70,7 @@ app.post(
 
 app.delete(
   "/listings/:id",
+  validateListing,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
@@ -134,7 +135,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   let { statusCode = 500, message } = err;
-  res.status(statusCode=500).render("error.ejs", { message,statusCode });
+  res.status((statusCode = 500)).render("error.ejs", { message, statusCode });
 });
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

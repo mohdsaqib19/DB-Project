@@ -40,6 +40,7 @@ router.post(
     //   country,
     // });
     await newListing.save();
+    req.flash("success","New listing Created");
     res.redirect("/listings");
   }),
 );

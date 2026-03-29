@@ -1,1 +1,30 @@
-<h1>flash message for success</h1>
+<% if (success && success.length > 0) { %>
+<div class="my-2 wl-alert wl-alert-success" role="alert">
+  <div class="wl-icon icon-success">
+    <i class="fa-solid fa-check"></i>
+  </div>
+  <div class="wl-content">
+    <div class="wl-title">Success!</div>
+    <div class="wl-msg"><%= success %></div>
+  </div>
+  <button class="wl-close" onclick="this.closest('.wl-alert').remove()">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+</div>
+<% } %>
+
+<% if (error && error.length > 0) { %>
+<div class="my-2 wl-alert wl-alert-danger" role="alert">
+  <div class="wl-icon icon-danger">
+    <i class="fa-solid fa-xmark"></i>
+  </div>
+  <div class="wl-content">
+    <div class="wl-title">error!</div>
+    <div class="wl-msg"><%= error %></div>
+  </div>
+  <button class="wl-close" onclick="this.closest('.wl-alert').remove()">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+</div>
+<% } %>
+

@@ -40,7 +40,7 @@ router.post(
     //   country,
     // });
     await newListing.save();
-    req.flash("success","New listing Created");
+    req.flash("success", "New listing Created");
     res.redirect("/listings");
   }),
 );
@@ -50,19 +50,26 @@ router.delete(
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     let result = await Listing.findByIdAndDelete(id);
+    req.flash("success", "Listing Deleted");
     res.redirect("/listings");
   }),
 );
 
+// Edit Route
 router.get(
   "/:id/edit",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
+    if (!listing) {
+      req.flash("error", "Listing you requested for does not exist");
+      return res.redirect("/listings");
+    }
     res.render("./listings/edit.ejs", { listing });
   }),
 );
 
+// Update Route
 router.put(
   "/:id",
   wrapAsync(async (req, res) => {
@@ -76,6 +83,7 @@ router.put(
       location,
       country,
     });
+    req.flash("success", "Listing Updated");
     res.redirect(`/listings/${id}`);
   }),
 );
@@ -85,6 +93,10 @@ router.get(
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews");
+    if (!listing) {
+      req.flash("error", "Listing you requested for does not exist");
+      return res.redirect("/listings");
+    }
     res.render("./listings/show.ejs", { listing });
   }),
 );

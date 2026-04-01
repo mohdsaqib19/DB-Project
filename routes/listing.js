@@ -4,6 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
+const {isloggedIn} = require("../middleware.js");
 
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
@@ -23,12 +24,13 @@ router.get(
   }),
 );
 
-router.get("/new", (req, res) => {
+router.get("/new",isloggedIn, (req, res) => {
   res.render("./listings/new.ejs");
 });
 
 router.post(
   "/",
+  isloggedIn,
   wrapAsync(async (req, res, next) => {
     const newListing = new Listing(req.body);
     // const { title, description, price, location, country } = req.body;
@@ -47,6 +49,7 @@ router.post(
 
 router.delete(
   "/:id",
+  isloggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     let result = await Listing.findByIdAndDelete(id);
@@ -58,6 +61,7 @@ router.delete(
 // Edit Route
 router.get(
   "/:id/edit",
+  isloggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -72,6 +76,7 @@ router.get(
 // Update Route
 router.put(
   "/:id",
+  isloggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     // if(!req.body.listing) throw new ExpressError("Invalid Listing Data",400);

@@ -25,7 +25,6 @@ const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
 const user = require("./routes/user.js");
 
-
 const sessionOption = {
   secret: "mysupersecretcode",
   resave: false,
@@ -58,6 +57,7 @@ async function main() {
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
   next();
 });
 
@@ -66,13 +66,13 @@ app.get("/demouser", async (req, res) => {
     email: "demo@example.com",
     username: "Demo_user",
   });
-  let registeredUser = await User.register(fakeuser,"demo123");
+  let registeredUser = await User.register(fakeuser, "demo123");
   res.send(registeredUser);
 });
 
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
-app.use("/",user); 
+app.use("/", user);
 
 app.use((req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

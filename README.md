@@ -1,4 +1,4 @@
-# 🧭 Wanderlust
+# Wanderlust
 
 A full-stack travel listing web application where users can browse, add, and manage property listings. Built with Node.js, Express, MongoDB, and EJS templating.
 
@@ -123,7 +123,7 @@ See detailed guide → [Deployment Steps](#)
 
 ## 📸 Screenshots
 
-><img width="1910" height="986" alt="image" src="https://github.com/user-attachments/assets/37084576-9014-4e19-a193-a09f31b80e70" />
+Will be add soon....
 
 
 ---

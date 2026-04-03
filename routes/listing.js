@@ -4,7 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
-const {isloggedIn} = require("../middleware.js");
+const { isloggedIn } = require("../middleware.js");
 
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
@@ -24,7 +24,7 @@ router.get(
   }),
 );
 
-router.get("/new",isloggedIn, (req, res) => {
+router.get("/new", isloggedIn, (req, res) => {
   res.render("./listings/new.ejs");
 });
 
@@ -33,14 +33,7 @@ router.post(
   isloggedIn,
   wrapAsync(async (req, res, next) => {
     const newListing = new Listing(req.body);
-    // const { title, description, price, location, country } = req.body;
-    // let newListing = new Listing({
-    //   title,
-    //   description,
-    //   price,
-    //   location,
-    //   country,
-    // });
+    newListing.owner = req.user._id;
     await newListing.save();
     req.flash("success", "New listing Created");
     res.redirect("/listings");
@@ -97,11 +90,15 @@ router.get(
   "/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+    const listing = await Listing.findById(id)
+      .populate("reviews")
+      .populate("owner");
     if (!listing) {
       req.flash("error", "Listing you requested for does not exist");
       return res.redirect("/listings");
     }
+    console.log(listing);
+    
     res.render("./listings/show.ejs", { listing });
   }),
 );

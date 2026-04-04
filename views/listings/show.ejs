@@ -17,7 +17,7 @@
       </p>
       <p><strong>Country:</strong> <%= listing.country %></p>
     </div>
-
+<% if(currUser && listing.owner._id.equals(currUser._id)) { %>
     <div class="d-flex gap-2 mb-3 mx-3">
       <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary">
         <i class="fa-solid fa-pen-to-square"></i>
@@ -29,8 +29,11 @@
         </button>
       </form>
     </div>
+    <% } %>
+    
   </div>
 </div>
+<% if(currUser) { %>
 <!-- Review Form -->
 <div class="mb-2 mt-4 col-8">
   <h4>Leave a Review</h4>
@@ -68,13 +71,15 @@
     </div>
     <button class="mt-2 mb-4 btn btn-dark" type="submit">Submit Review</button>
   </form>
+<% } %>
+
   <h4>All Reviews</h4>
 
     <div class="row">
       <% for (review of listing.reviews)  {%>
     <div class="card mb-3 me-3 col-5">
       <div class="card-body">
-        <h5 class="card-title"><%= review._id %></h5>
+        <p class="card-text"><strong>Author:</strong> <%= review.author.username %></p>
         <p class="card-text"><%= review.comment %></p>
         <p class="card-text"><%= review.rating %> <i class="fa-solid fa-star" style="color: rgb(255, 219, 13); "></i></p>
         <form method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">

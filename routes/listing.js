@@ -1,20 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
-const { isloggedIn } = require("../middleware.js");
-
-const validateListing = (req, res, next) => {
-  let { error } = listingSchema.validate(req.body);
-  console.log(error);
-  if (error) {
-    throw new ExpressError(400, "error");
-  } else {
-    next();
-  }
-};
+const { isloggedIn, isOwner, validateListing } = require("../middleware.js");
 
 router.get(
   "/",
@@ -23,7 +11,7 @@ router.get(
     res.render("./listings/listings.ejs", { listings });
   }),
 );
-
+ 
 router.get("/new", isloggedIn, (req, res) => {
   res.render("./listings/new.ejs");
 });
@@ -43,6 +31,7 @@ router.post(
 router.delete(
   "/:id",
   isloggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     let result = await Listing.findByIdAndDelete(id);
@@ -55,6 +44,7 @@ router.delete(
 router.get(
   "/:id/edit",
   isloggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -70,6 +60,7 @@ router.get(
 router.put(
   "/:id",
   isloggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     // if(!req.body.listing) throw new ExpressError("Invalid Listing Data",400);
@@ -86,19 +77,20 @@ router.put(
   }),
 );
 
+// Show Route
 router.get(
   "/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id)
-      .populate("reviews")
+      .populate({path : "reviews" , populate : {path : "author"}})
       .populate("owner");
     if (!listing) {
       req.flash("error", "Listing you requested for does not exist");
       return res.redirect("/listings");
     }
     console.log(listing);
-    
+
     res.render("./listings/show.ejs", { listing });
   }),
 );

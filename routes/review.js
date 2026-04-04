@@ -5,25 +5,21 @@ const ExpressError = require("../utils/ExpressError.js");
 const { reviewSchema } = require("../schema.js");
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js");
+const { isloggedIn, isOwner, validateReview } = require("../middleware.js");
 
-const validateReview = (req, res, next) => {
-  let { error } = reviewSchema.validate(req.body);
-  if (error) {
-    throw new ExpressError(400, "error");
-  } else {
-    next();
-  }
-};
+
 
 //reviews and comments routes
 router.post(
   "/",
+  isloggedIn,
   validateReview,
   wrapAsync(async (req, res) => {
     // console.log(req.params);
     
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
+    newReview.author = req.user._id; 
     listing.reviews.push(newReview);
     await newReview.save();
     await listing.save();
@@ -39,6 +35,8 @@ router.post(
 //delete review
 router.delete(
   "/:reviewId",
+  isloggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
     //find and delete all the ids from reviews array

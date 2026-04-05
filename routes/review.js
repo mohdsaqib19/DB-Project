@@ -1,49 +1,26 @@
 const express = require("express");
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { reviewSchema } = require("../schema.js");
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js");
 const { isloggedIn, isOwner, validateReview } = require("../middleware.js");
-
-
+const reviewController = require("../controllers/review.js");
 
 //reviews and comments routes
 router.post(
   "/",
   isloggedIn,
   validateReview,
-  wrapAsync(async (req, res) => {
-    // console.log(req.params);
-    
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-    newReview.author = req.user._id; 
-    listing.reviews.push(newReview);
-    await newReview.save();
-    await listing.save();
-    req.flash("success", "Review added")
-    console.log(newReview);
-    res.redirect(`/listings/${listing._id}`);
-  }),
+  wrapAsync(reviewController.createReview),
 );
-
-
-
 
 //delete review
 router.delete(
   "/:reviewId",
   isloggedIn,
   isOwner,
-  wrapAsync(async (req, res) => {
-    let { id, reviewId } = req.params;
-    //find and delete all the ids from reviews array
-    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    req.flash("success", "Review Deleted");
-    res.redirect(`/listings/${id}`);
-  }),
+  wrapAsync(reviewController.deleteReview),
 );
 module.exports = router;

@@ -1,4 +1,4 @@
-# Wanderlust
+# Wanderlust Airnib like website 
 
 A full-stack travel listing web application where users can browse, add, and manage property listings. Built with Node.js, Express, MongoDB, and EJS templating.
 

@@ -6,7 +6,7 @@ A full-stack travel listing web application where users can browse, add, and man
 
 ## 🌐 Live Demo
 
-> Coming soon — deploying on [Render.com](https://render.com)
+> Coming soon
 
 ---
 
